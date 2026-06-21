@@ -26,6 +26,11 @@ EXO = ["oil_g", "trd_g", "d_rrate", "rfx_g", "lab_g"]
 # 동시계수 prior평균을 0.40으로 잡으면, 산업 간 동학 증폭 후 총량 가중 장기승수가
 # 0.85(노동분배율 0.65 + 완만한 일반균형 승수) 수준이 되어 구조적으로 타당해진다.
 LAB_SHARE, OM_LAB = 0.40, 0.0008
+# 위기 더미: IMF·글로벌금융위기·코로나의 급락 분기를 더미로 흡수 → 상수가 평상시 동학 반영.
+# 위기는 상시 상황이 아니므로 정상 표본에서 분리한다.
+CRISIS = {"IMF": ["1998Q1", "1998Q2", "1998Q3"],
+          "GFC": ["2008Q4", "2009Q1"],
+          "COVID": ["2020Q1", "2020Q2"]}
 
 
 def qkey(q):
@@ -49,12 +54,15 @@ def build():
         blocks.append(g.values[[r - l for r in rows]])
     for s in range(0, Q + 1):
         blocks.append(ex.values[[r - s for r in rows]])
-    X = np.column_stack(blocks + [np.ones(T)])
-    return g, ex, Y, X, n, ne, [common[r] for r in rows]
+    qlabels = [common[r] for r in rows]
+    dums = [np.array([1.0 if q in cq else 0.0 for q in qlabels]) for cq in CRISIS.values()]
+    X = np.column_stack(blocks + dums + [np.ones(T)])   # [내생 | 외생 | 위기더미 | const]
+    return g, ex, Y, X, n, ne, qlabels
 
 
 def prior(n, ne, sig_y, sig_x):
-    k = n * P + ne * (Q + 1) + 1
+    nd = len(CRISIS)
+    k = n * P + ne * (Q + 1) + nd + 1
     B0 = np.zeros((k, n))                                # white-noise prior
     om = np.zeros(k)
     pos = 0
@@ -64,6 +72,8 @@ def prior(n, ne, sig_y, sig_x):
     for s in range(0, Q + 1):                            # 외생: 느슨
         for m in range(ne):
             om[pos] = LAMX ** 2 / ((s + 1) ** 2 * sig_x[m] ** 2); pos += 1
+    for _ in range(nd):                                  # 위기더미: 느슨(자유 추정)
+        om[pos] = 1e6; pos += 1
     om[pos] = 1e6                                        # const
     # 노동계수 구조 제약: 동시계수 prior평균=노동분배율, 시차=0, 모두 tight
     lab = EXO.index("lab_g")
