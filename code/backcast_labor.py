@@ -30,6 +30,11 @@ def load_panel():
     idx = sorted([q for q in ex.index if SPAN0 <= q <= SPAN1], key=qkey)
     P = ex.loc[idx, BASE + ["lab_g"]].astype(float)
     P["gdp_g"] = gdp_g.reindex(idx)
+    # 생산연령인구 증가율(통계청, 연→분기 broadcast) — 인구를 노동 복원 예측자로 반영.
+    # 1990년대 생산연령인구는 연 +1.5% 안팎으로 늘어, 그 시기 고용 추세의 핵심 닻이 된다.
+    pop = pd.read_csv("kosis_wap_historical.csv", encoding="utf-8-sig").set_index("연도")["생산연령인구_천명"]
+    wap = 100 * np.log(pop).diff()
+    P["wap_g"] = [wap.get(int(q[:4]), np.nan) for q in idx]
     return P, idx
 
 
@@ -70,13 +75,15 @@ def main():
     obs = panel["lab_g"].values
     missing = np.isnan(obs)
 
+    cands = {"A 외생4종": BASE,
+             "B +실질GDP": BASE + ["gdp_g"],
+             "C +실질GDP+생산연령인구": BASE + ["gdp_g", "wap_g"]}
     print("[홀드아웃 검증] 2019Q1~2021Q4(COVID 변동기) 결측처리 후 복원 vs 실측")
-    rmse_a, corr_a = holdout(panel, BASE)
-    rmse_b, corr_b = holdout(panel, BASE + ["gdp_g"])
-    print(f"  (A) 외생4종     : RMSE={rmse_a:.3f}  corr={corr_a:+.3f}")
-    print(f"  (B) +실질GDP    : RMSE={rmse_b:.3f}  corr={corr_b:+.3f}")
-    better = BASE + ["gdp_g"] if rmse_b < rmse_a else BASE
-    print(f"  → 채택: {'(B) +실질GDP' if better == BASE + ['gdp_g'] else '(A) 외생4종'}")
+    for nm, cols in cands.items():
+        r, c = holdout(panel, cols)
+        print(f"  ({nm:22}): RMSE={r:.3f}  corr={c:+.3f}")
+    better = cands["C +실질GDP+생산연령인구"]   # 인구 반영 (요청) — 생산연령인구 포함
+    print("  → 채택: C (산출 + 생산연령인구 결합)")
 
     lab_hat, lab_se = smooth_labor(panel, better)
     lab_filled = np.where(missing, lab_hat, obs)
@@ -91,7 +98,7 @@ def main():
            "hat": [round(float(v), 3) for v in lab_hat],
            "lo": [round(float(h - 1.64 * s), 3) for h, s in zip(lab_hat, lab_se)],
            "hi": [round(float(h + 1.64 * s), 3) for h, s in zip(lab_hat, lab_se)],
-           "adopt": "B(+GDP)" if better == BASE + ["gdp_g"] else "A(4exog)"}
+           "adopt": "C(+GDP+생산연령인구)"}
     json.dump(viz, open("_labor_backcast.json", "w", encoding="utf-8"), ensure_ascii=False)
 
     print(f"\n최종 백캐스트: 결측 {int(missing.sum())}분기 복원 ({idx[0]}~1999Q2)")

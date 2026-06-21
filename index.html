@@ -6,175 +6,189 @@
 <title>시나리오별 경제성장 및 산업별 실질부가가치 전망 (2025~2035)</title>
 <meta property="og:type" content="article">
 <meta property="og:title" content="시나리오별 경제성장 및 산업별 실질부가가치 전망 (2025~2035)">
-<meta property="og:description" content="베이지안 VARX × 준구조 거시모형으로 36개 산업의 10년 경로를 시나리오별로 추정한다. 노동공급 절벽 앞에서 어떤 산업이 흔들리는가 — 팀 공유용 연구 메모.">
+<meta property="og:description" content="베이지안 VARX × 준구조 거시모형으로 36개 산업의 10년 경로를 시나리오별로 추정한다. 여러 충격이 산업 그물을 타고 번지는 길을 신뢰구간과 함께 그린 팀 공유용 연구 메모.">
 <meta property="og:image" content="https://raw.githubusercontent.com/sdkparkforbi/gva-scenario-2025-2035/main/thumb.png">
 <meta property="og:url" content="https://sdkparkforbi.github.io/gva-scenario-2025-2035/">
 <meta name="twitter:card" content="summary_large_image">
 <style>
 :root{--ink:#1a1a1a;--mut:#5a5a5a;--line:#e3e0d8;--bg:#fbfaf7;--accent:#185FA5;--box:#f1f4f8;--warn:#faf2e6;--code:#f3f1ea;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Pretendard','Noto Sans KR',-apple-system,'Malgun Gothic',sans-serif;line-height:1.75;font-size:16.5px;-webkit-font-smoothing:antialiased}
-.wrap{max-width:820px;margin:0 auto;padding:48px 22px 96px}
-h1{font-size:27px;line-height:1.35;font-weight:700;margin:0 0 6px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Pretendard','Noto Sans KR',-apple-system,'Malgun Gothic',sans-serif;line-height:1.85;font-size:16.5px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:830px;margin:0 auto;padding:48px 22px 96px}
+h1{font-size:27px;line-height:1.4;font-weight:700;margin:0 0 6px}
 .sub{color:var(--mut);font-size:15px;margin:0 0 4px}
 .meta{color:var(--mut);font-size:13.5px;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:30px}
-h2{font-size:21px;font-weight:700;margin:46px 0 4px;padding-top:14px;border-top:2px solid var(--ink)}
+h2{font-size:21px;font-weight:700;margin:48px 0 6px;padding-top:14px;border-top:2px solid var(--ink)}
 h2 .no{color:var(--accent);margin-right:8px}
 h3{font-size:17px;font-weight:600;margin:30px 0 8px;color:#222}
-p{margin:13px 0}
-.lead{font-size:17.5px}
-.box{background:var(--box);border:1px solid #dde6f0;border-radius:10px;padding:16px 20px;margin:22px 0}
-.box .bt{font-weight:700;font-size:14px;color:var(--accent);letter-spacing:.02em;margin-bottom:6px;display:flex;align-items:center;gap:7px}
+p{margin:14px 0;text-indent:1em}
+.lead{font-size:17px}
+.box p,figcaption,.tabcap,li,.box{text-indent:0}
+.box{background:var(--box);border:1px solid #dde6f0;border-radius:10px;padding:16px 20px;margin:24px 0}
+.box .bt{font-weight:700;font-size:14px;color:var(--accent);letter-spacing:.02em;margin-bottom:8px}
 .box.warn{background:var(--warn);border-color:#ecd9b6}.box.warn .bt{color:#9a6a12}
-.box p{margin:8px 0;font-size:15.3px}
-.hook{font-style:italic;color:#6a4a1a;background:var(--warn);border-left:3px solid #caa14a;padding:10px 16px;border-radius:0 8px 8px 0;margin:20px 0}
-figure{margin:28px 0;padding:0}
+.box p{margin:9px 0;font-size:15.3px;line-height:1.8}
+.hook{font-style:italic;color:#6a4a1a;background:var(--warn);border-left:3px solid #caa14a;padding:11px 17px;border-radius:0 8px 8px 0;margin:22px 0;text-indent:0}
+figure{margin:30px 0;padding:0}
 .chartbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 16px 12px}
-figcaption{font-size:14px;color:var(--mut);margin-top:10px;line-height:1.6}
+figcaption{font-size:14px;color:var(--mut);margin-top:11px;line-height:1.72}
 figcaption b{color:#333}
 .cap-no{color:var(--accent);font-weight:700}
 table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px}
 th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:left;vertical-align:top}
 th{background:#f3f1ea;font-weight:600;font-size:13.5px}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
-.tabcap{font-size:14px;color:var(--mut);margin:6px 2px 0}
+.tabcap{font-size:13.5px;color:var(--mut);margin:6px 2px 18px;line-height:1.7}
 code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:14px;font-family:'JetBrains Mono',Consolas,monospace}
-.refs{font-size:14px;line-height:1.7}
-.refs li{margin:9px 0}
+.refs{font-size:14px;line-height:1.7}.refs li{margin:9px 0}
 .refs a{color:var(--accent);text-decoration:none;word-break:break-all}
 .tag{display:inline-block;background:#e9eef5;color:#2c4a6e;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:20px;margin-right:5px}
-.foot{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);color:var(--mut);font-size:13px}
-hr.soft{border:0;border-top:1px solid var(--line);margin:34px 0}
-.kpi{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}
+.foot{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);color:var(--mut);font-size:13px;text-indent:0}
+.kpi{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}
 .kpi div{flex:1;min-width:120px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
-.kpi .v{font-size:23px;font-weight:700;color:var(--accent)}
-.kpi .l{font-size:12.5px;color:var(--mut)}
+.kpi .v{font-size:23px;font-weight:700;color:var(--accent)}.kpi .l{font-size:12.5px;color:var(--mut)}
+#heat{font-size:11px}#heat table{table-layout:fixed}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<p class="sub">한국고용정보원 인력수급전망 연계 · 팀 공유용 연구 메모 (초안)</p>
+<p class="sub" style="text-indent:0">한국고용정보원 인력수급전망 연계 · 팀 공유용 연구 메모 (초안)</p>
 <h1>시나리오별 경제성장 및 산업별 실질부가가치 전망 (2025~2035)<br>— 베이지안 VARX와 준구조 거시모형의 결합</h1>
-<p class="meta"><span class="tag">Bayesian VARX</span><span class="tag">산업연관 prior</span><span class="tag">DSGE 연계</span><span class="tag">시나리오 팬차트</span><br>
+<p class="meta" style="text-indent:0"><span class="tag">Bayesian VARX</span><span class="tag">산업연관 prior</span><span class="tag">DSGE 연계</span><span class="tag">시나리오 팬차트</span><br>
 작성일 2026-06-21 · 본 문서는 정식 논문 집필 전 팀 내부 공유용 초안이며, 모든 수치는 재현 가능한 코드로 산출되었습니다.</p>
 
-<!-- ===================== 초록 ===================== -->
+<!-- 초록 -->
 <h2><span class="no">§0</span>초록</h2>
-<p class="lead">우리는 한국의 36개 산업 실질부가가치를 2025년부터 2035년까지 시나리오별로 전망하는 정량 장치를 만들었다. 핵심 도구는 두 층으로 나뉜다. 위층은 한국은행 BOKDPM을 옮긴 준구조 거시모형으로, 인구추계와 대외충격을 받아 거시·노동 경로를 만든다. 아래층은 36개 산업을 동시에 다루는 베이지안 VAR로, 위층이 건넨 외생 경로를 산업별 부가가치로 풀어낸다. 두 층을 잇자 노동공급이 묶이는 시나리오와 풀리는 시나리오가 산업마다 다른 그림을 그렸다.</p>
-<p>결과는 분명한 메시지를 담는다. 노동공급이 제약되는 저위 인구 경로에서 2035년 실질 GDP는 기준선을 밑돌았고, 그 충격은 건설·기계 같은 노동집약 산업에 집중되었다. 모든 전망에는 베이지안 사후분포에서 끌어낸 신뢰구간이 따라붙어, 점추정이 아니라 불확실성까지 함께 전달한다. 이 메모는 그 장치의 설계와 첫 결과를 팀과 나누기 위한 기록이다.</p>
+<p class="lead">우리는 한국의 36개 산업 실질부가가치가 2025년부터 2035년까지 어떻게 움직일지를 네 갈래 시나리오로 전망하는 정량 장치를 설계하였다. 이 장치는 두 층의 분업으로 구성되는데, 위층은 한국은행 BOKDPM을 옮긴 준구조 거시모형으로서 인구추계와 여러 대내외 충격을 받아 거시·노동 경로를 일관되게 만들어 낸다. 아래층은 36개 산업을 한꺼번에 다루는 베이지안 벡터자기회귀로서, 위층이 건넨 외생 경로를 받아 산업마다의 부가가치 경로로 풀어 낸다. 두 층을 잇자, 유가에서 금리와 환율, 그리고 노동공급에 이르는 충격들이 산업의 그물을 타고 서로 다른 깊이로 번지는 그림이 드러났다.</p>
+<p>핵심 결과는 충격이 결코 산업에 고르게 떨어지지 않는다는 비대칭성에 모인다. 생산가능인구가 빠르게 줄어드는 저위 경로에서는 2035년 실질 GDP가 기준선을 또렷이 밑돌았고, 그 압력은 기계·금속 같은 산업에 더 무겁게 쌓였다. 우리는 모든 전망에 베이지안 사후분포에서 길어 올린 신뢰구간을 함께 붙여, 점추정 하나가 아니라 불확실성의 폭까지 정책 현장에 전달하고자 하였다. 이 메모는 그 장치의 설계 원리와 첫 결과를 팀과 나누기 위한 기록이며, 정식 논문에 앞선 중간 점검의 성격을 가진다.</p>
 
-<!-- ===================== 연구주제 ===================== -->
+<!-- 연구주제 -->
 <h2><span class="no">§1</span>연구 주제</h2>
-<p>본 연구의 질문은 한 문장으로 압축된다. 앞으로 10년, 한국의 각 산업은 얼마나 자랄 것인가. 다만 그 답은 하나일 수 없는데, 인구·기술·대외환경이라는 거대한 불확실성이 앞을 가리기 때문이다. 그래서 우리는 단일 예측 대신 네 갈래 시나리오를 세우고, 각 갈래마다 36개 산업의 실질부가가치 경로를 그린다. 전망의 단위는 한국은행 국민계정과 정확히 맞물리는 실질부가가치(2020년 기준 연쇄가중)로 두었다.</p>
-<p>이 작업은 한국고용정보원의 인력수급전망과 직접 맞닿아 있다. 산업별 부가가치가 정해져야 그로부터 산업별 노동수요가 도출되기 때문이다. 따라서 부가가치 전망의 정확도와 불확실성 정보는 후속 정책의 첫 입력 자료가 된다. 우리는 이 첫 입력의 신뢰성을 높이는 것을 연구의 목표로 삼았다.</p>
+<p>본 연구의 질문은 한 문장으로 압축되지만, 그 답은 결코 하나의 숫자로 닫히지 않는다. 우리는 앞으로 10년 동안 한국의 각 산업이 얼마나 자랄 것인지를 묻되, 인구와 기술과 대외환경이라는 거대한 불확실성을 정면으로 끌어안으려 한다. 그래서 단일 예측을 고집하는 대신, 가정이 다른 네 개의 시나리오를 세우고 그 각각에서 36개 산업의 실질부가가치 경로를 그린다. 전망의 단위는 한국은행 국민계정과 정확히 맞물리는 실질부가가치(2020년 기준 연쇄가중)로 두어, 후속 작업이 그대로 이어받을 수 있도록 하였다.</p>
+<p>이 작업이 향하는 곳은 한국고용정보원의 인력수급전망이며, 둘 사이의 연결은 생각보다 단단하다. 산업별 부가가치가 먼저 정해져야 그로부터 산업별 노동수요가 도출되는 구조이기 때문에, 부가가치 전망은 인력 전망의 가장 앞단에 놓인 입력 자료가 된다. 따라서 우리가 산출하는 경로의 정확도와 불확실성 정보는 직업훈련 예산과 정원, 외국인력 정책의 판단 근거로 곧장 흘러 들어간다. 우리는 바로 이 첫 입력의 신뢰성을 끌어올리는 것을 연구의 일차 목표로 삼았다.</p>
+<div class="hook">5,000개의 계수를 35개 안팎의 학습 시점으로 추정한다 — 통계학 교과서라면 단번에 손사래 칠 일이다. 그런데 이 불가능을 푸는 열쇠가 한국 산업의 '연결 지도' 안에 조용히 숨어 있었다. 그 열쇠는 §6에서 꺼내 보인다.</div>
 
-<div class="hook">5,000개의 계수를 35개의 관측치로 추정한다 — 통계학 교과서라면 손사래 칠 일이다. 그런데 이 불가능을 푸는 열쇠가 한국 산업의 '연결 지도' 안에 숨어 있었다. 열쇠는 §6에서 꺼낸다.</div>
-
-<!-- ===================== 중요성 ===================== -->
+<!-- 중요성 -->
 <h2><span class="no">§2</span>연구의 중요성</h2>
-<p>지금 이 전망이 특별한 이유는 시계(時界) 자체가 한국 경제의 변곡점과 겹치기 때문이다. 2025~2035년은 생산가능인구 감소가 본격화되는 구간으로, 노동이라는 생산요소가 처음으로 뚜렷한 제약이 된다. 같은 기간 2030 NDC와 2050 탄소중립의 중간 이행이 진행되고, 반도체·이차전지·정밀의료 같은 신산업이 자리를 잡는다. 대외적으로는 공급망 재편과 무역환경 변화가 한국 같은 소규모 개방경제를 흔든다. 이 네 힘이 동시에 작용하는 10년을 한 모형 안에서 일관되게 다루는 것이 본 연구의 값이다.</p>
+<p>지금 이 전망이 특별한 무게를 갖는 이유는, 전망의 시계 자체가 한국 경제의 구조적 변곡점과 정확히 겹치기 때문이다. 2025년부터 2035년까지는 생산가능인구의 감소가 본격화되어, 노동이라는 생산요소가 처음으로 뚜렷한 제약으로 떠오르는 구간이다. 같은 기간에 2030 국가온실가스감축목표와 2050 탄소중립의 중간 이행이 진행되어, 에너지·소재 산업의 비용 구조가 함께 흔들린다. 또한 반도체 첨단공정과 이차전지, 정밀의료 같은 신산업이 자리를 잡는 한편, 공급망 재편과 무역환경 변화가 소규모 개방경제인 한국을 끊임없이 시험한다.</p>
+<p>이 네 가지 힘은 따로 오는 것이 아니라 한꺼번에 작용하며, 바로 그 동시성이 분석을 어렵게 만드는 동시에 가치 있게 만든다. 인구 충격과 기술 충격과 대외 충격이 서로 얽혀 산업마다 다른 결과를 낳기 때문에, 이들을 한 모형 안에서 일관되게 다루지 않으면 부분적 진실에 그치기 쉽다. 우리의 장치는 이 충격들을 공통의 거시 경로로 묶은 뒤 산업별로 분해하여, 가정이 달라질 때 결과가 어떻게 함께 움직이는지를 추적한다. 아래 세 숫자는 그 무대의 크기를 가늠하게 해 주는 지표이다.</p>
 <div class="kpi">
 <div><div class="v">−1.2%/년</div><div class="l">생산가능인구 감소율(중위, 2025→2035)</div></div>
 <div><div class="v">36개</div><div class="l">동시 추정 산업(말단 분류)</div></div>
 <div><div class="v">66%</div><div class="l">산업 변동의 상호전이 비중(총연결성)</div></div>
 </div>
 
-<!-- ===================== 선행연구 ===================== -->
+<!-- 선행연구 -->
 <h2><span class="no">§3</span>선행 연구</h2>
-<p>산업별 부가가치 전망의 계보는 길다. 1960년대 미국 메릴랜드대의 Almon이 INFORUM 다부문 모형을 세웠고, 그 전통은 1990년대 한국으로 이식되어 산업연구원의 KIET-DIMM으로 이어졌다. 이들은 산업연관표를 토대로 산업 간 파급을 명시적으로 다룬다는 강점이 있다. 그러나 다수 산업을 동시에 추정할 때 모수가 폭증한다는 고질적 한계도 함께 물려받았다. 본 연구는 이 계보를 계승하되, 베이지안 추정으로 그 한계를 정면 돌파한다.</p>
-<p>방법론의 뿌리는 거시계량의 두 흐름에서 나온다. 한 줄기는 Sims(1980)가 연 VAR로, 변수 간 동학을 이론 제약 없이 데이터에 맡긴다. 다른 줄기는 Litterman(1986)이 제안한 베이지안 수축으로, 과다모수 문제를 사전분포의 규율로 다스린다. 두 흐름은 Bańbura·Giannone·Reichlin(2010)에서 만나 '대형 베이지안 VAR'로 합류했고, 본 연구의 산업 블록은 바로 이 위에 선다. 한편 산업을 네트워크로 보는 시각은 Acemoglu 외(2012)와 Carvalho(2014)가 정교화했으며, 우리는 그 통찰을 연결성 분석과 사전분포 양쪽에 끌어들였다.</p>
+<p>산업별 부가가치 전망의 계보는 길고, 우리는 그 흐름의 끝자락에 서 있다. 1960년대 미국 메릴랜드대학의 Almon이 산업연관표를 토대로 한 다부문 거시모형 INFORUM을 세웠고, 그 전통은 1990년대에 한국으로 이식되어 산업연구원의 KIET-DIMM으로 이어졌다. 이 계보는 산업 간 투입·산출 관계를 명시적으로 다룬다는 분명한 강점을 가지지만, 다수의 산업을 동시에 추정할 때 모수가 폭증한다는 고질적 한계도 함께 물려받았다. 본 연구는 이 계보의 문제의식을 계승하되, 그 한계를 베이지안 추정이라는 다른 무기로 넘어서려 한다.</p>
+<p>방법론의 뿌리는 거시계량경제학의 두 줄기가 만나는 지점에 닿아 있다. 한 줄기는 Sims(1980)가 연 벡터자기회귀로서, 변수들 사이의 동학을 이론적 제약 없이 데이터에 맡겨 읽어 내는 접근이다. 다른 줄기는 Litterman(1986)이 제안한 베이지안 수축으로서, 과다모수의 위험을 사전분포의 규율로 다스리는 전략이다. 두 줄기는 Bańbura·Giannone·Reichlin(2010)에서 '대형 베이지안 VAR'로 합류하였고, 우리의 산업 블록은 정확히 그 위에 서며, 산업을 네트워크로 보는 Acemoglu 외(2012)와 Carvalho(2014)의 통찰을 사전분포와 연결성 분석에 함께 끌어들인다.</p>
 
-<!-- ===================== 가설 ===================== -->
+<!-- 가설 -->
 <h2><span class="no">§4</span>연구 가설</h2>
-<p>우리는 세 개의 검증 가능한 가설을 세웠다. 각 가설은 뒤의 결과 절에서 데이터로 확인된다.</p>
+<p>우리는 세 개의 검증 가능한 가설을 세웠으며, 각 가설은 뒤의 결과 절에서 데이터로 직접 확인된다. 첫 가설은 충격의 전파에 관한 것이고, 둘째는 그 전파의 비대칭성에 관한 것이며, 셋째는 사전 정보의 역할에 관한 것이다. 세 가설은 서로 독립적이지 않고, 산업을 '얽힌 그물'로 본다는 하나의 관점에서 가지를 친다. 아래 표는 각 가설과 그것이 검증되는 위치를 함께 보여 준다.</p>
 <table>
-<tr><th style="width:42px">번호</th><th>가설</th><th style="width:90px">검증 위치</th></tr>
-<tr><td>H1</td><td>한국 산업의 변동은 자기 충격보다 다른 산업으로부터의 전이가 더 크게 좌우한다.</td><td>§8.1</td></tr>
-<tr><td>H2</td><td>노동공급 제약은 모든 산업에 균일하지 않고, 노동집약 산업에 비대칭적으로 더 크게 전파된다.</td><td>§8.3</td></tr>
+<tr><th style="width:42px">번호</th><th>가설</th><th style="width:84px">검증 위치</th></tr>
+<tr><td>H1</td><td>한국 산업의 변동은 자기 충격보다, 다른 산업과 거시 환경으로부터 전이되는 부분이 더 크게 좌우한다.</td><td>§8.1</td></tr>
+<tr><td>H2</td><td>거시 충격은 모든 산업에 균일하지 않고, 각 충격의 성격에 따라 특정 산업군에 비대칭적으로 더 크게 전파된다.</td><td>§8.2 · §8.4</td></tr>
 <tr><td>H3</td><td>산업연관표의 후방연쇄 정보를 사전분포에 넣으면, 데이터가 약한 산업쌍의 계수가 경제이론과 더 정합해진다.</td><td>§6.2</td></tr>
 </table>
+<p class="tabcap"><span class="cap-no">표 1.</span> 연구 가설과 검증 위치. H1은 충격이 산업 그물을 타고 번진다는 명제이며, H2는 충격의 종류마다 취약한 산업이 다르다는 비대칭성, H3은 산업연관표라는 외부 지식이 추정을 돕는다는 명제다. 셋은 모두 '산업은 섬이 아니다'라는 공통의 관점에서 출발한다.</p>
 
-<!-- ===================== 방법론 ===================== -->
-<h2><span class="no">§5</span>방법론 ① — 전체 구조</h2>
-<p>모형은 두 블록의 분업으로 설계된다. Block 1은 거시·노동의 균형 경로를 만들고, Block 2는 그 경로를 산업별로 분해한다. 이 분업은 각 도구를 가장 잘하는 일에 배치한다는 원칙에서 나왔다. 거시 균형은 구조가 분명한 준구조 모형이 잘 풀고, 36개 산업의 얽힌 동학은 데이터 주도의 베이지안 VAR이 잘 잡기 때문이다. 두 블록은 외생변수 경로라는 다리로 연결된다.</p>
+<!-- 방법론 전체 -->
+<h2><span class="no">§5</span>방법론 ① — 전체 구조와 충격의 지도</h2>
+<p>모형은 두 블록의 분업으로 설계되며, 이 분업은 각 도구를 가장 잘하는 일에 배치한다는 단순한 원칙에서 나온다. Block 1은 거시와 노동의 균형 경로를 만들고, Block 2는 그 경로를 받아 36개 산업으로 분해한다. 거시 균형은 구조가 분명한 준구조 모형이 잘 풀어 내고, 36개 산업의 얽힌 동학은 데이터 주도의 베이지안 VAR이 잘 잡아 내기 때문이다. 두 블록은 '외생변수 경로'라는 다리로 연결되어, 위층의 일관성이 아래층의 입력이 되도록 짜여 있다.</p>
+<p>여기서 한 가지 오해를 먼저 풀어 두어야 한다. 이 장치가 다루는 충격은 노동공급이나 대외환경에만 국한되지 않으며, 실제로는 훨씬 넓은 충격의 공간을 포괄한다. 우리는 산업 변동의 원천을 세 갈래로 나누어 다루는데, 그것은 각 산업 고유의 구조적 충격과, 산업에서 산업으로 번지는 전이, 그리고 다섯 갈래의 거시 외생 충격이다. 이 세 층위가 합쳐져 한 산업의 부가가치 증가율이 결정되며, 노동은 그중 거시 외생 충격의 한 갈래일 뿐이다.</p>
 <table>
-<tr><th>블록</th><th>모형</th><th>입력 → 출력</th></tr>
-<tr><td><b>Block 1</b><br>거시·노동</td><td>BOKDPM 포트<br>(준구조 NK gap)</td><td>인구추계·대외충격 → 유가·교역·실질금리·실질환율·고용 경로</td></tr>
-<tr><td><b>Block 2</b><br>산업 분해</td><td>베이지안 VARX<br>(미네소타+산업연관 prior)</td><td>Block 1 외생경로 → 36개 산업 실질부가가치 경로 + 신뢰구간</td></tr>
+<tr><th style="width:150px">충격 층위</th><th>내용</th><th style="width:120px">모형 내 위치</th></tr>
+<tr><td><b>① 산업 고유 충격</b></td><td>각 산업에만 발생하는 기술·수요·공급 교란 (예: 반도체 업황, 건설 수주)</td><td>VAR 잔차 (구조 충격)</td></tr>
+<tr><td><b>② 산업 간 전이</b></td><td>한 산업의 충격이 투입·산출 연계를 타고 다른 산업으로 번지는 파급</td><td>VAR 동학 (연결성)</td></tr>
+<tr><td><b>③ 거시 외생 충격</b></td><td>유가 · 교역량 · 실질금리 · 실질환율 · 노동공급 (다섯 갈래)</td><td>VARX 외생 블록</td></tr>
 </table>
-<p class="tabcap"><span class="cap-no">표 1.</span> 두 블록 결합 구조. 제안서의 동시균형(Block 1)·베이지안 VAR(Block 2) 분업을 그대로 따르되, Block 1은 한국은행 BOKDPM을 옮겨 구현했다.</p>
+<p class="tabcap"><span class="cap-no">표 2.</span> 모형이 다루는 충격의 지도. 산업 부가가치의 변동은 ① 산업 고유 충격, ② 산업 간 전이, ③ 다섯 갈래 거시 외생 충격이 겹쳐 결정된다. 노동공급은 ③의 한 갈래이며, 본 연구가 노동을 자주 언급하는 것은 인구 변곡점 때문일 뿐 모형이 노동만 다루기 때문이 아니다. 각 층위는 §8에서 차례로 측정된다.</p>
 
 <h2><span class="no">§6</span>방법론 ② — 산업 블록(Block 2)</h2>
 <h3>6.1 베이지안 수축: '만능 장치'의 정체</h3>
-<p>36개 산업을 시차 4분기까지 동시에 추정하면, 방정식 하나에만 계수가 145개씩 붙는다. 전체로는 약 5,000개의 모수인데, 연간 자료로는 학습 표본이 수십 개에 그친다. 보통의 최소제곱이라면 이 상황에서 노이즈를 통째로 외워 과적합에 빠진다. 베이지안 수축은 바로 이 지점에서 '깐깐한 회의주의자'를 고용한다. 데이터가 강하게 우기는 관계만 살리고, 약한 관계는 0 쪽으로 되돌려보내는 규율이 작동하는 것이다.</p>
+<p>36개 산업을 시차 4분기까지 동시에 추정하면, 방정식 하나에만 계수가 145개씩 붙어 전체로는 약 5,000개의 모수가 된다. 그런데 연간으로 정비된 학습 표본은 수십 개에 그치므로, 보통의 최소제곱 추정으로는 자료가 부족해 노이즈를 통째로 외우는 과적합에 빠진다. 베이지안 수축은 바로 이 지점에서, 데이터가 강하게 우기는 관계만 살리고 약한 관계는 0 쪽으로 되돌리는 '깐깐한 회의주의자'를 추정 과정에 앉힌다. 이 회의주의자가 곧 미네소타 사전분포이며, 그 정체를 다음 박스에서 조금 더 풀어 설명한다.</p>
 <div class="box">
-<div class="bt">📦 개념 박스 — 미네소타 사전분포가 마법이 아닌 이유</div>
-<p>미네소타 prior는 정보를 만들어내지 않는다. 다만 세 가지 상식을 모형에 미리 새긴다. ① 각 산업은 일단 자기 과거로 설명되는 게 기본이다. ② 먼 시차일수록 영향은 0에 가깝다(분산 ∝ 1/시차²). ③ 남의 산업이 내 산업을 예측한다는 주장은 더 엄격히 의심한다.</p>
-<p>수축의 세기는 λ라는 다이얼 하나로 조절된다. λ가 작으면 극단적 회의(거의 단변량)이고, 크면 귀가 얇아진다(순수 최소제곱). 우리는 이 값을 손으로 정하지 않고 <b>주변우도(marginal likelihood)</b>로 데이터에게 투표시켰으며, λ=0.1에서 명확한 최댓값이 나왔다. 즉 '만능 장치'의 정체는 편향-분산 맞교환을 원칙 있게 자동화한 규율일 뿐이다.</p>
+<div class="bt">📦 개념 박스 — 미네소타 사전분포, 왜 마법이 아닌가</div>
+<p>미네소타 사전분포는 정보를 새로 만들어 내지 않으며, 다만 세 가지 상식을 추정이 시작되기 전에 모형에 미리 새겨 둔다. 첫째, 각 산업의 올해 증가율은 일단 자기 자신의 과거로 설명되는 것이 기본이라고 본다. 둘째, 영향을 주는 시점이 멀수록 그 계수는 0에 가까워야 한다고 보아, 시차가 한 분기 멀어질 때마다 허용 폭을 1/시차²로 좁힌다. 셋째, 남의 산업이 내 산업을 예측한다는 주장은 자기 자신보다 훨씬 더 엄격하게 의심한다.</p>
+<p>이 세 신념의 세기를 조절하는 손잡이가 λ라는 단 하나의 숫자이며, 이 값이 모든 것을 좌우한다. λ가 0에 가까우면 회의가 극단으로 치달아 모형은 거의 단변량처럼 굳어 버리고, λ가 크면 귀가 얇아져 순수 최소제곱처럼 노이즈에 휘둘린다. 우리는 이 값을 손으로 정하지 않고 <b>주변우도(marginal likelihood)</b>라는 기준으로 데이터에게 직접 투표하게 하였으며, 그 결과 λ=0.1에서 뚜렷한 최댓값이 나왔다. 결국 '만능 장치'의 정체는 마법이 아니라, 편향과 분산 사이의 맞교환을 원칙 있게 자동화한 통계적 규율에 지나지 않는다.</p>
 </div>
 
 <h3>6.2 산업연관표를 사전 정보로 (H3)</h3>
-<p>기본 미네소타는 모든 산업쌍을 똑같이 의심한다는 약점이 있다. 그러나 우리는 어느 산업이 어느 산업에 투입되는지를 이미 알고 있는데, 산업연관표가 바로 그 연결 지도이기 때문이다. 그래서 회의주의자를 더 똑똑하게 바꾼다 — 후방연쇄가 강한 쌍(예: 철강→자동차)은 덜 의심하고, 거래가 거의 없는 쌍(예: 농림어업→반도체)은 강하게 0으로 민다. 이것이 §1에서 던진 떡밥의 회수다: 5,000개 계수를 35개 관측치로 푸는 열쇠는, 데이터가 비어 있는 곳을 한국 산업의 실제 구조로 메우는 데 있었다. 우리는 한국은행 투입계수·생산유발계수표(2015~2023)를 받아 이 사전 정보를 구성했다.</p>
+<p>기본 미네소타에는 한 가지 분명한 약점이 있는데, 그것은 모든 산업쌍을 똑같은 강도로 의심한다는 점이다. 그러나 우리는 어느 산업이 어느 산업에 투입되는지를 이미 알고 있으며, 한국은행 산업연관표가 바로 그 '연결 지도'를 숫자로 담고 있다. 그래서 우리는 회의주의자를 더 똑똑하게 바꾸어, 후방연쇄가 강한 쌍은 덜 의심하고 거래가 거의 없는 쌍은 강하게 0으로 미는 비대칭 수축을 건다. 이것이 §1에서 던진 떡밥의 회수이며, 5,000개의 계수를 적은 자료로 푸는 열쇠는 데이터가 비어 있는 자리를 한국 산업의 실제 구조로 메우는 데 있었다.</p>
+<p>구체적으로는 후방연쇄가 강한 산업쌍의 시차 계수에 0이 아닌 양의 사전 평균을 부여하여, 이론이 말하는 연계를 추정의 출발점에 새긴다. 예를 들어 철강에서 자동차로, 또는 디스플레이에서 반도체로 향하는 강한 후방연쇄는 데이터가 약하더라도 사전 정보만으로 살아남는다. 우리는 이를 위해 한국은행 투입계수표와 생산유발계수표(2015~2023년)를 전 구간 받아, 산업 간 연계 강도를 사전분포의 형태로 변환하였다. 그 결과 학습 자료가 빈약한 산업쌍에서도 계수가 경제이론과 더 정합하게 추정되어, H3을 뒷받침한다.</p>
 
 <h3>6.3 외생변수와 정상성</h3>
-<p>산업 블록에는 다섯 개의 거시 외생변수가 들어간다 — 유가, 교역량, 실질금리, 실질환율, 노동이다. 시계열 분석의 첫 계명은 정상성이므로, 각 변수를 율이나 비로 변환해 단위근을 제거했다. 유가·교역량·노동은 로그 차분(증가율)으로, 금리·환율은 명목이 아닌 실질로 바꾼 뒤 변화를 취했다. ADF 검정 결과 다섯 변수 모두 정상성을 만족했다(p&lt;0.01).</p>
+<p>산업 블록에는 다섯 갈래의 거시 외생변수가 입력으로 들어가며, 이들은 표 2의 ③ 층위에 해당한다. 시계열 분석의 첫 계명은 정상성이므로, 우리는 각 변수를 율이나 비로 변환하여 추세가 만드는 가짜 상관, 곧 단위근을 제거하였다. 유가와 교역량과 노동은 로그 차분을 취해 증가율로 바꾸었고, 금리와 환율은 명목이 아니라 실질로 환산한 뒤 그 변화를 사용하였다. 다섯 변수 모두 단위근 검정(ADF)에서 1% 유의수준으로 정상성을 만족하여, 안정적인 추정의 토대를 마련하였다.</p>
 <div class="box warn">
-<div class="bt">⚠ 데이터 박스 — 시작 시점이 다른 시계열을 어떻게 살릴 것인가</div>
-<p>취업자 시계열은 1999년에야 시작해, 함께 쓰면 표본이 통째로 잘려나간다. 우리는 이 빈 구간을 버리지 않고, <b>동적요인 칼만평활</b>로 다른 외생변수와의 시차상관을 통해 복원했다. 유가·교역·금리·환율만으로는 고용을 약하게밖에 못 맞혔으나, 산출(Okun의 법칙)을 예측자로 더하자 1998년 외환위기의 고용붕괴까지 잡아냈다. 홀드아웃 검증(2019~21)에서 상관계수가 0.28에서 0.73으로 뛰었다.</p>
+<div class="bt">⚠ 데이터 박스 — 시작이 늦은 시계열을 인구로 되살리다</div>
+<p>취업자 시계열은 1999년에야 시작하여, 그대로 함께 쓰면 학습 표본이 통째로 잘려 나가는 문제가 있었다. 우리는 이 빈 구간을 버리지 않고, 동적요인 칼만평활을 써서 다른 변수와의 시차상관을 통해 1990년대 고용을 복원하였다. 처음에는 유가·교역·금리·환율만으로 고용을 약하게밖에 맞히지 못했으나, 산출(Okun의 법칙)과 <b>생산연령인구</b>를 예측자로 더하자 복원의 질이 크게 올라갔다. 생산연령인구가 연 1.5% 안팎으로 늘던 1990년대의 고용 추세가 이 인구 변수에 실려 되살아났고, 홀드아웃 검증에서 상관계수가 0.28에서 0.79까지 높아졌다.</p>
 </div>
 
 <h2><span class="no">§7</span>방법론 ③ — 거시 블록(Block 1)과 노동 제약</h2>
-<p>여기서 우리는 한 가지 한계를 정직하게 마주해야 한다. 산업 블록은 모든 변수를 증가율로 차분했기에, 레벨 사이의 장기 균형을 담지 못한다. 그런데 '노동이 산출을 묶는다'는 명제는 본질적으로 레벨의 이야기다 — 생산가능인구가 줄면 산출 수준의 천장이 낮아진다는 뜻이다. 차분 VAR의 장기예측은 평균 증가율로 수렴할 뿐, 이 천장을 표현할 장치가 없다. 이것이 §4에서 H2를 세우며 깔아둔 두 번째 떡밥이며, 그 빈자리를 Block 1이 채운다.</p>
-<p>Block 1은 한국은행의 BOKDPM을 Python으로 옮긴 준구조 거시모형이다. 전향적 IS곡선·필립스곡선·테일러준칙·UIP 환율식, 그리고 결정적으로 오쿤 법칙 실업식을 담는다. 노동은 이 오쿤 채널로 들어온다 — 산출갭이 벌어지면 실업이 늘고, 고용은 인구추계가 정한 노동력에서 경기적 실업을 뺀 값으로 결정된다. 우리는 통계청 장래인구추계(생산연령인구 중위·고위·저위)를 노동력의 닻으로 삼았다.</p>
+<p>여기서 우리는 한 가지 한계를 정직하게 마주해야 하며, 그것은 산업 블록의 구조 자체에서 비롯된다. 산업 블록은 모든 변수를 증가율로 차분했기에 레벨 사이의 장기 균형, 곧 수준의 천장을 담아낼 수 없다. 그런데 '노동이 산출을 묶는다'는 명제는 본질적으로 레벨의 이야기여서, 생산가능인구가 줄면 산출 수준의 상한이 낮아진다는 뜻을 담는다. 차분 VAR의 장기 예측은 평균 증가율로 수렴할 뿐이어서 이 천장을 표현할 장치가 없으며, 바로 그 빈자리를 Block 1이 채운다.</p>
+<p>Block 1은 한국은행의 BOKDPM을 Python으로 옮긴 준구조 거시모형으로, 한국 거시의 핵심 동학을 담는다. 전향적 IS곡선과 필립스곡선, 테일러 준칙과 UIP 환율식, 그리고 결정적으로 오쿤 법칙 실업식이 한 체계 안에서 함께 작동한다. 노동은 이 오쿤 채널을 통해 들어오는데, 산출갭이 벌어지면 실업이 늘고 고용은 인구추계가 정한 노동력에서 경기적 실업을 뺀 값으로 결정된다. 우리는 통계청 장래인구추계의 생산연령인구를 중위·고위·저위 세 가정으로 받아 노동력의 닻으로 삼아, 시나리오마다 다른 노동 경로를 일관되게 생성한다.</p>
 <div class="box">
 <div class="bt">📦 개념 박스 — 왜 DSGE가 노동 제약의 자리를 메우는가</div>
-<p>증가율 VAR이 못 담는 것은 '레벨의 장기 균형'이다. 공적분·VECM이 그 대안이지만, 36개 산업에 Johansen 절차를 돌리면 차원의 저주로 무너진다. 대신 우리는 노동 제약을 구조가 분명한 소규모 거시모형(Block 1)에 맡기고, 그 결과를 산업 VAR이 받게 했다. BOKDPM의 오쿤식과 정책준칙이 '노동공급 충격이 임금·금리·고용으로 번지는 경로'를 일관되게 만들어주기 때문이다.</p>
+<p>증가율로 차분한 VAR이 끝내 담지 못하는 것은 '레벨의 장기 균형'이며, 이를 다루는 정공법은 공적분과 오차수정모형(VECM)이다. 그러나 36개 산업에 Johansen 공적분 절차를 곧장 적용하면, 차원의 저주로 검정의 크기와 검정력이 모두 무너진다. 그래서 우리는 노동 제약이라는 장기 명제를 구조가 분명한 소규모 거시모형에 맡기고, 그 결과를 산업 VAR이 외생 입력으로 받게 하는 분업을 택하였다. BOKDPM의 오쿤식과 정책준칙이 '노동공급 충격이 임금과 금리, 고용으로 번지는 경로'를 일관되게 만들어 주기 때문에, 두 모형의 결합이 정합성을 유지한다.</p>
 </div>
 
-<!-- ===================== 결과 ===================== -->
+<!-- 결과 -->
 <h2><span class="no">§8</span>결과</h2>
 
 <h3>8.1 산업은 섬이 아니다 (H1)</h3>
-<p>먼저 산업들이 서로 얼마나 얽혀 있는지부터 측정했다. 일반화 예측오차 분산분해를 토대로 Diebold·Yılmaz(2014) 연결성을 계산한 결과, 총연결성은 66%에 달했다. 이는 산업 변동성의 약 3분의 2가 자기 충격이 아니라 다른 산업에서 전이됨을 뜻한다. 따라서 H1은 데이터로 지지된다 — 한국 산업은 섬이 아니라 촘촘한 그물이다. 아래 그림은 누가 충격을 보내고 누가 받는지를 보여준다.</p>
+<p>먼저 우리는 산업들이 서로 얼마나 얽혀 있는지를, 곧 충격이 그물을 타고 번지는 정도를 측정하였다. 일반화 예측오차 분산분해를 토대로 Diebold·Yılmaz(2014)의 연결성을 계산한 결과, 총연결성 지수는 66%에 이르렀다. 이는 산업 변동성의 약 3분의 2가 자기 충격이 아니라 다른 산업과 거시 환경에서 전이된 것임을 뜻한다. 따라서 H1은 데이터로 분명히 지지되며, 한국 산업은 고립된 섬이 아니라 촘촘히 짜인 하나의 그물이다.</p>
 <figure>
-<div class="chartbox"><div style="position:relative;height:430px"><canvas id="netChart" role="img" aria-label="36개 산업의 순 연결성 막대그래프"></canvas></div></div>
-<figcaption><span class="cap-no">그림 1.</span> <b>산업별 순(net) 연결성.</b> 양수(파랑)는 충격을 내보내는 순 전파자, 음수(주황)는 받는 순 수용자다. 도소매·전문서비스·중간재 제조업이 진원에 가깝고, 건설·전기·농림어업·공공행정이 충격을 받는 쪽이다. 값은 보내는 정도에서 받는 정도를 뺀 %p로, 1991~2025년 표본의 사후 중앙값이다.</figcaption>
+<div class="chartbox"><div style="position:relative;height:440px"><canvas id="netChart" role="img" aria-label="36개 산업의 순 연결성 막대그래프"></canvas></div></div>
+<figcaption><span class="cap-no">그림 1.</span> <b>산업별 순(net) 연결성, 1991~2025년.</b> 막대는 한 산업이 다른 산업으로 '보내는' 충격에서 '받는' 충격을 뺀 순 전파량(%p)이며, 사후분포의 중앙값이다. 양수(파랑)는 충격을 주로 내보내는 순 전파자로, 도소매·전문서비스·중간재 제조업이 그물의 진원에 가깝게 자리한다. 음수(주황)는 충격을 주로 받는 순 수용자로, 건설·전기·농림어업·공공행정이 여기에 속한다. 이 그림은 표 2의 ②층위(산업 간 전이)를 한눈에 보여 주는 지도이며, 어떤 산업의 교란이 시스템 전체를 흔들 잠재력이 큰지를 가늠하게 한다.</figcaption>
 </figure>
 
-<h3>8.2 네 갈래의 미래</h3>
-<p>이제 본 무대인 시나리오 전망이다. 제안서의 설계를 그대로 따라 노동공급과 대외환경 두 축으로 네 시나리오를 세웠다. S1은 인구 중위·대외 안정의 기준선이고, S2는 인구 저위에 대외충격이 겹친 제약 시나리오다. S3은 외국인력 보강으로 노동이 풀리는 완화 시나리오이며, S4는 기술도약이 더해진 상방이다. Block 1이 각 시나리오의 거시·노동 경로를 만들고, Block 2가 이를 산업과 총량으로 풀었다.</p>
+<h3>8.2 다섯 갈래 거시 충격의 비대칭 지도 (H2)</h3>
+<p>다음으로 우리는 표 2의 ③층위, 곧 다섯 갈래 거시 충격이 산업마다 어떻게 다르게 작용하는지를 측정하였다. 각 충격을 표준편차 한 단위만큼 가한 뒤 20분기에 걸친 누적 반응을 모으면, 산업별 민감도의 지도가 그려진다. 그 결과는 H2를 강하게 지지하는데, 충격의 종류에 따라 취약한 산업이 또렷이 갈렸다. 노동은 이 다섯 충격 가운데 하나일 뿐이며, 유가·교역·금리·환율 각각도 저마다 다른 산업을 흔든다.</p>
+<figure>
+<div class="chartbox"><div id="heat"></div></div>
+<figcaption><span class="cap-no">그림 2.</span> <b>다섯 갈래 거시 충격의 산업별 민감도 지도(20분기 누적, %).</b> 각 칸은 해당 충격이 1 표준편차만큼 발생했을 때 그 산업 실질부가가치의 누적 반응이며, 녹색은 증가·주황은 감소, 색이 진할수록 효과가 크다. 유가 상승은 정유에 크게 유리한 반면 건설에는 불리하고, 교역량 증가는 운송장비·기계 같은 수출 연관 산업에 집중적으로 이롭다. 실질금리 상승은 전반을 수축시키고, 원화 절하는 수입 의존 산업을 압박하며, 노동 증가는 노동집약 산업을 끌어올린다. 충격마다 색의 분포가 다르다는 사실 자체가, 거시 충격이 결코 산업에 고르게 떨어지지 않음을 보여 준다.</figcaption>
+</figure>
+
+<h3>8.3 네 갈래의 미래</h3>
+<p>이제 본 무대인 시나리오 전망으로 넘어가며, 제안서의 설계를 그대로 따라 노동공급과 대외환경 두 축으로 네 시나리오를 세웠다. S1은 인구 중위와 대외 안정을 결합한 기준선이고, S2는 인구 저위에 대외충격이 겹친 제약 시나리오이다. S3은 외국인력 보강으로 노동이 풀리는 완화 시나리오이며, S4는 기술도약의 상방 가정을 더한 시나리오이다. Block 1이 각 시나리오의 거시·노동 경로를 만들고, Block 2가 그 경로를 받아 산업과 총량으로 풀어 낸다.</p>
 <figure>
 <div class="chartbox"><div style="position:relative;height:360px"><canvas id="fanChart" role="img" aria-label="시나리오별 실질GDP 전망 팬차트"></canvas></div></div>
-<figcaption><span class="cap-no">그림 2.</span> <b>시나리오별 실질 GDP 전망 (2025Q4=100).</b> 굵은 선은 사후 중앙값, 음영은 90% 신뢰구간이다. 2035년 지수는 S1 125·S2 122·S3 127·S4 127로, 노동이 묶이는 S2가 가장 낮다. 통화정책이 대외충격을 일부 상쇄하기에 격차는 과장되지 않으며, 시간이 갈수록 구간이 넓어지는 것은 누적되는 불확실성을 반영한다.</figcaption>
+<figcaption><span class="cap-no">그림 3.</span> <b>시나리오별 실질 GDP 전망(2025Q4=100), 2026~2035년.</b> 굵은 선은 사후 중앙값이고 음영은 90% 신뢰구간으로, 시간이 갈수록 음영이 넓어지는 것은 전망의 불확실성이 누적됨을 나타낸다. 2035년 지수는 기준선 S1이 110, 노동이 묶이는 S2가 107, 노동이 풀리는 S3이 112, 기술도약 S4가 111로 나타났다. 연 1% 안팎의 이 성장 경로는 생산가능인구가 줄어드는 2030년대 한국의 잠재성장 추정과 대체로 부합한다. 시나리오 사이의 격차가 크지 않은 것은, Block 1의 통화정책이 대외충격을 일부 상쇄하여 경로를 안정시키기 때문이다.</figcaption>
 </figure>
 <div class="box">
 <div class="bt">📦 개념 박스 — 팬차트는 무엇을 말하나</div>
-<p>팬차트는 점 하나가 아니라 분포를 보여준다. 우리는 사후분포에서 표본을 반복 추출해 각 표본마다 시나리오 경로를 산출했고, 거기서 70%·90% 구간을 분위수로 뽑았다. 구간이 좁은 산업은 전망의 정밀도가 높은 영역이고, 넓은 산업은 추가 정보 수집이 우선인 영역이다. 영국은행·ECB·한국은행이 거시 전망에 써온 방식을 산업 분해에 옮긴 것이다.</p>
+<p>팬차트는 미래를 점 하나로 단정하지 않고, 가능한 경로들의 분포를 펼쳐 보이는 그림이다. 우리는 사후분포에서 표본을 반복해 뽑아 각 표본마다 시나리오 경로를 산출하고, 거기서 70%와 90% 구간을 분위수로 잘라 낸다. 구간이 좁은 산업은 전망의 정밀도가 높은 영역이고, 구간이 넓은 산업은 추가 정보 수집이 우선인 영역으로 읽힌다. 이는 영국은행과 ECB, 한국은행이 거시 전망에 오래 써 온 방식을 산업 분해의 영역으로 옮겨 온 것이다.</p>
 </div>
 
-<h3>8.3 충격은 균일하지 않다 (H2)</h3>
-<p>핵심 비교쌍은 노동이 묶인 S2와 풀린 S3이다. 두 시나리오의 산업별 부가가치 차이가 곧 노동공급 효과이며, 이는 산업별 추가 필요 인력의 직접 입력이 된다. 결과는 H2를 또렷이 지지한다 — 충격은 결코 균일하지 않았다. 비주거용·주거용 건설과 기계·장비가 가장 크게 흔들렸는데, 모두 노동집약도가 높은 산업이다. 반대로 자본집약적인 정유·통신은 거의 영향을 받지 않았다.</p>
+<h3>8.4 노동 충격의 비대칭, 다시 산업으로 (H2)</h3>
+<p>마지막으로 다섯 충격 가운데 이번 시계에서 가장 무거운 노동공급으로 돌아와, 그 효과를 산업별로 분해하였다. 핵심 비교쌍은 노동이 묶인 S2와 풀린 S3이며, 두 시나리오의 산업별 부가가치 차이가 곧 노동공급 효과의 크기가 된다. 결과는 §8.2에서 본 비대칭을 다시 확인해 주는데, 기계·장비와 금속가공, 운송장비처럼 노동집약도가 높은 제조업이 가장 크게 흔들렸다. 반대로 자본집약적인 정유나 통신은 노동 제약의 영향을 거의 받지 않아, 충격이 산업의 성격을 따라 갈린다는 사실을 보여 준다.</p>
 <table>
-<tr><th>노동 제약에 가장 취약 (S2−S3, %)</th><th class="n">효과</th><th>가장 둔감</th><th class="n">효과</th></tr>
-<tr><td>비주거용 건물 건설업</td><td class="n">−16.7</td><td>코크스·석유정제품</td><td class="n">+10.2</td></tr>
-<tr><td>주거용 건물 건설업</td><td class="n">−14.0</td><td>통신업</td><td class="n">+5.1</td></tr>
-<tr><td>기계 및 장비 제조업</td><td class="n">−13.7</td><td>부동산업</td><td class="n">+0.9</td></tr>
-<tr><td>금속가공제품 제조업</td><td class="n">−11.1</td><td>토목건설업</td><td class="n">+0.3</td></tr>
+<tr><th>노동 제약에 취약 (S2−S3, %)</th><th class="n">효과</th><th>노동 제약에 둔감</th><th class="n">효과</th></tr>
+<tr><td>기계 및 장비 제조업</td><td class="n">−19.5</td><td>코크스·석유정제품</td><td class="n">+8.6</td></tr>
+<tr><td>금속가공제품 제조업</td><td class="n">−14.9</td><td>통신업</td><td class="n">+3.4</td></tr>
+<tr><td>운송장비 제조업</td><td class="n">−10.7</td><td>부동산업</td><td class="n">+1.1</td></tr>
+<tr><td>1차금속 제조업</td><td class="n">−9.8</td><td>전기업</td><td class="n">+0.6</td></tr>
 </table>
-<p class="tabcap"><span class="cap-no">표 2.</span> 노동공급 효과의 산업별 비대칭(2035 누적, S2−S3). 노동집약 산업이 음(−)으로 크게 반응한다. 다만 page 19 매핑을 따라 S2에 대외충격이 포함되어, 이 차이에는 순수 노동효과와 대외효과가 함께 담긴다.</p>
+<p class="tabcap"><span class="cap-no">표 3.</span> 노동공급 효과의 산업별 비대칭(2035년 누적, S2−S3). 음(−)이 클수록 노동이 묶일 때 더 크게 위축되는 산업으로, 기계·금속 등 노동집약 제조업이 상위를 차지한다. 양(+)으로 나타난 정유·통신은 노동보다 자본·기술 의존도가 높아 둔감하다. 다만 S2에는 page 19 매핑에 따라 대외충격이 함께 담겨 있어, 이 차이에는 순수 노동효과와 대외효과가 섞여 있음에 유의해야 한다.</p>
 
-<!-- ===================== 한계 ===================== -->
+<!-- 한계 -->
 <h2><span class="no">§9</span>한계</h2>
-<p>정직한 연구는 한계를 숨기지 않는다. 우리는 다섯 가지를 분명히 기록한다.</p>
-<p><b>① 산업 수.</b> 제안서는 약 70개 산업을 목표로 하나, 본 초안은 ECOS가 분기로 제공하는 36개 말단 산업에 머문다. 신산업(반도체 세부·이차전지 등)의 분리는 자료 협의 이후로 미뤄진다. <b>② DSGE 실행 환경.</b> Dynare 미설치로 BOKDPM을 직접 추정하지 못해, 핵심 블록을 Python으로 이식하고 calibration 파라미터를 그대로 썼다. 전향항은 Fair-Taylor 반복으로 풀었으며, 일부 정상상태값은 2025년 기준으로 갱신했다. <b>③ 노동 복원.</b> 1999년 이전 고용은 관측이 아니라 칼만평활로 복원한 값이라, 그 구간 해석에는 주의가 필요하다. <b>④ 시나리오 혼합.</b> S2는 노동과 대외충격을 함께 담아, S2−S3 차이가 순수 노동효과는 아니다. <b>⑤ 실질 가법성.</b> 연쇄가중 실질부가가치는 더해지지 않으므로, 총량은 명목 비중 가중으로 집계했다.</p>
+<p>정직한 연구는 자신의 한계를 숨기지 않으며, 우리는 다섯 가지를 분명히 기록해 둔다. 첫째, 제안서는 약 70개 산업을 목표로 하나 본 초안은 ECOS가 분기로 제공하는 36개 말단 산업에 머물러, 반도체 세부나 이차전지 같은 신산업의 분리는 자료 협의 이후로 미뤄진다. 둘째, Dynare 실행 환경의 제약으로 BOKDPM을 직접 추정하지 못하고 핵심 블록을 Python으로 이식하였으며, 전향항은 Fair-Taylor 반복으로 풀고 일부 정상상태값은 2025년 기준으로 갱신하였다. 셋째, 1999년 이전 고용은 관측이 아니라 칼만평활로 복원한 값이므로, 그 구간의 해석에는 주의가 필요하다.</p>
+<p>나머지 두 한계는 자료의 성질에서 비롯되며, 특히 다섯 번째는 오해를 부르기 쉬워 따로 풀어 설명한다. 넷째, S2 시나리오는 노동 제약과 대외충격을 함께 담고 있어, S2와 S3의 차이가 순수한 노동효과만은 아니라는 점을 결과 해석에서 분명히 해 두었다. 다섯째, 36개 산업의 실질부가가치를 단순히 더해도 전체 실질 GDP가 되지 않는데, 이는 통계청이 '실질'을 계산하는 방식 때문에 생기는 알려진 성질이다. 우리는 이 문제를 피하기 위해 산업을 합칠 때 실질 금액을 더하지 않고, 각 산업의 실질 증가율을 그 산업의 명목 비중으로 가중하여 총량 경로를 만들었다.</p>
+<div class="box warn">
+<div class="bt">⚠ 풀어 보기 — '실질은 더해지지 않는다'는 말의 뜻</div>
+<p>명목 금액은 그냥 원화 액수이므로, 36개 산업의 명목 부가가치를 더하면 정확히 전체 명목 부가가치가 된다. 그러나 '실질'은 물가 변동을 걷어 내려고 매년 그 해의 가격 비중을 갈아 끼우며 사슬처럼 이어 붙이는데(연쇄가중), 이렇게 만든 실질 금액은 더하기가 보존되지 않는다. 실제로 우리 데이터에서도 36개 산업의 실질 합은 전체 실질 GDP와 1980년 기준 22%까지 벌어졌고, 2020년 부근에서만 0에 수렴하였다. 그래서 산업을 하나의 GDP로 묶을 때는 실질 금액을 더하는 대신, 각 산업의 실질 증가율을 명목 비중으로 가중하는 표준적인 방식을 따랐다.</p>
+</div>
 
-<!-- ===================== 결론 ===================== -->
+<!-- 결론 -->
 <h2><span class="no">§10</span>결론</h2>
-<p>우리는 불가능해 보이던 추정을 가능하게 만들었다. 5,000개의 계수는 베이지안 수축과 산업연관 사전 정보가 길들였고, 차분 VAR이 비운 노동 제약의 자리는 준구조 거시모형이 메웠다. 그 결과 36개 산업의 10년 경로가 네 시나리오에 걸쳐, 그것도 신뢰구간과 함께 모습을 드러냈다. 핵심 발견은 노동이 묶일 때 그 충격이 건설·기계 같은 노동집약 산업에 집중된다는 비대칭성이다.</p>
-<p>이 장치의 값은 한 장의 예측표가 아니라, 가정을 바꾸면 결과가 일관되게 따라오는 구조에 있다. 인구추계가 갱신되거나 대외 가정이 바뀌면, 매핑 표만 고쳐 모형을 다시 돌리면 된다. 다음 단계는 산업을 70개로 넓히고, 산업연관 사전분포를 본격 결합하며, 순수 노동효과를 분리한 비교쌍을 더하는 일이다. 이 메모가 그 작업의 출발점이 되기를 바란다.</p>
+<p>우리는 불가능해 보이던 추정을 가능하게 만들었고, 그 과정에서 두 개의 매듭을 풀었다. 5,000개의 계수는 베이지안 수축과 산업연관표의 사전 정보가 함께 길들였고, 차분 VAR이 비워 둔 노동 제약의 자리는 준구조 거시모형이 메웠다. 그 결과 36개 산업의 10년 경로가 네 시나리오에 걸쳐, 그것도 신뢰구간과 함께 모습을 드러냈다. 무엇보다 분명해진 사실은 충격이 산업에 고르게 떨어지지 않는다는 비대칭성이며, 이는 노동뿐 아니라 유가·교역·금리·환율 모두에서 관찰되었다.</p>
+<p>이 장치의 진짜 값은 한 장의 예측표가 아니라, 가정을 바꾸면 결과가 일관되게 따라오는 구조 그 자체에 있다. 인구추계가 갱신되거나 대외 가정이 바뀌면, 충격을 외생변수 경로로 옮긴 매핑 표만 고쳐 모형을 다시 돌리면 된다. 다음 단계는 산업을 70개로 넓히고, 산업연관 사전분포를 본격적으로 결합하며, 대외충격을 공통으로 고정한 순수 노동효과의 비교쌍을 더하는 일이다. 이 메모가 그 작업의 단단한 출발점이 되기를 바라며, 팀의 검토와 비판을 기다린다.</p>
 
-<!-- ===================== 참고문헌 ===================== -->
+<!-- 참고문헌 -->
 <h2><span class="no">§11</span>참고문헌 <span style="font-size:13px;color:var(--mut);font-weight:400">(DOI 검증 완료)</span></h2>
 <ol class="refs">
 <li>Sims, C. A. (1980). Macroeconomics and reality. <i>Econometrica</i>, 48(1), 1–48. <a href="https://doi.org/10.2307/1912017">https://doi.org/10.2307/1912017</a></li>
@@ -191,31 +205,36 @@ hr.soft{border:0;border-top:1px solid var(--line);margin:34px 0}
 <li>Giannone, D., Lenza, M., &amp; Primiceri, G. E. (2015). Prior selection for vector autoregressions. <i>Review of Economics and Statistics</i>, 97(2), 436–451. <a href="https://doi.org/10.1162/REST_a_00483">https://doi.org/10.1162/REST_a_00483</a></li>
 </ol>
 
-<div class="foot">
-재현 패키지 · 데이터: 한국은행 ECOS, 통계청 KOSIS 장래인구추계 · 코드/데이터 전체는 본 저장소 <code>/code</code>, <code>/data</code>에 있습니다. 정식 논문 집필 전 팀 공유용 초안입니다.
-</div>
+<div class="foot">재현 패키지 · 데이터: 한국은행 ECOS, 통계청 KOSIS 장래인구추계, FRED · 코드와 데이터 전체는 본 저장소의 <code>/code</code>, <code>/data</code>에 있습니다. 정식 논문 집필 전 팀 공유용 초안입니다.</div>
 
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="chart_data.js"></script>
 <script>
-const pad=(a,n)=>a.concat(Array(Math.max(0,n-a.length)).fill(null));
 // 그림 1: 순 연결성
 new Chart(document.getElementById('netChart'),{type:'bar',
  data:{labels:GVA.net.names,datasets:[{data:GVA.net.vals,backgroundColor:GVA.net.vals.map(v=>v>=0?'#185FA5':'#D85A30'),borderWidth:0}]},
  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'NET '+(c.parsed.x>=0?'+':'')+c.parsed.x+'%p'}}},
   scales:{x:{position:'top',grid:{color:'rgba(0,0,0,.06)'},title:{display:true,text:'순 연결성 (%p)'}},y:{ticks:{font:{size:9.5},autoSkip:false},grid:{display:false}}}}});
-// 그림 2: 시나리오 팬차트
-const SC={S1:{c:'#888780',a:'rgba(136,135,128,.12)'},S2:{c:'#D85A30',a:'rgba(216,90,48,.13)'},S3:{c:'#185FA5',a:'rgba(24,95,165,.12)'},S4:{c:'#1D9E75',a:'rgba(29,158,117,.12)'}};
-const ds=[];['S4','S3','S1','S2'].forEach(s=>{const f=GVA.fan[s];
+// 그림 2: 거시충격 민감도 히트맵
+(function(){var H=GVA.shockmap;function col(v){var a=Math.min(1,Math.abs(v)/3)*0.82+0.06;return v>=0?'rgba(29,158,117,'+a+')':'rgba(216,90,48,'+a+')';}
+ var s='<table style="border-collapse:collapse;width:100%"><thead><tr><th style="width:25%;text-align:left;padding:4px;color:#5a5a5a;font-weight:600"></th>';
+ H.exo.forEach(function(e){s+='<th style="text-align:center;padding:4px 2px;font-size:10.5px;color:#5a5a5a;font-weight:600">'+e+'</th>';});
+ s+='</tr></thead><tbody>';
+ H.inds.forEach(function(nm,i){s+='<tr><td style="text-align:left;padding:3px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0">'+nm+'</td>';
+  H.M[i].forEach(function(v){s+='<td style="text-align:center;padding:3px 2px;background:'+col(v)+';color:#1a1a1a">'+(v>0?'+':'')+v.toFixed(1)+'</td>';});s+='</tr>';});
+ s+='</tbody></table>';document.getElementById('heat').innerHTML=s;})();
+// 그림 3: 시나리오 팬차트
+var SC={S1:{c:'#888780',a:'rgba(136,135,128,.12)'},S2:{c:'#D85A30',a:'rgba(216,90,48,.13)'},S3:{c:'#185FA5',a:'rgba(24,95,165,.12)'},S4:{c:'#1D9E75',a:'rgba(29,158,117,.12)'}};
+var ds=[];['S4','S3','S1','S2'].forEach(function(s){var f=GVA.fan[s];
  ds.push({label:s+'lo',data:f.p05,borderColor:'transparent',backgroundColor:SC[s].a,pointRadius:0,fill:false});
  ds.push({label:s+'hi',data:f.p95,borderColor:'transparent',backgroundColor:SC[s].a,pointRadius:0,fill:'-1'});
  ds.push({label:s,data:f.p50,borderColor:SC[s].c,borderWidth:2,pointRadius:0,tension:.2,fill:false});});
 new Chart(document.getElementById('fanChart'),{type:'line',data:{labels:GVA.q,datasets:ds},
  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-  plugins:{legend:{display:false},tooltip:{filter:c=>!c.dataset.label.match(/lo|hi/),callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)}}},
-  scales:{x:{ticks:{maxTicksLimit:10,maxRotation:0,callback:function(v){const l=this.getLabelForValue(v);return l.endsWith('Q1')?l.slice(0,4):''}},grid:{display:false}},
+  plugins:{legend:{display:false},tooltip:{filter:function(c){return !/lo|hi/.test(c.dataset.label)},callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.y.toFixed(1)}}}},
+  scales:{x:{ticks:{maxTicksLimit:10,maxRotation:0,callback:function(v){var l=this.getLabelForValue(v);return l.endsWith('Q1')?l.slice(0,4):''}},grid:{display:false}},
    y:{title:{display:true,text:'실질 GDP 지수 (2025Q4=100)'},grid:{color:'rgba(0,0,0,.06)'}}}}});
 </script>
 </body>
