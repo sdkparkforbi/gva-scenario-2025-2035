@@ -20,6 +20,8 @@ with sync_playwright() as p:
     except Exception:
         pass
     pg.wait_for_timeout(2500)
+    pg.evaluate("try{Object.values(Chart.instances).forEach(function(c){c.resize();});}catch(e){}")
+    pg.wait_for_timeout(800)
     pg.pdf(path=OUT, format="A4", print_background=True,
            margin={"top": "16mm", "bottom": "18mm", "left": "14mm", "right": "14mm"},
            display_header_footer=True,

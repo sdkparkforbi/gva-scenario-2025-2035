@@ -77,8 +77,7 @@ code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:13.5px;f
 
 <div class="abs">
 <div class="t">초록</div>
-<p>본 연구는 한국의 36개 산업 실질부가가치 경로를 2025년부터 2035년까지 다섯 시나리오로 전망하는 계량모형을 구축한다. 모형은 역할이 다른 두 블록으로 구성되며, 거시 블록은 한국은행 BOKDPM을 이식한 준구조 모형으로서 인구추계와 대내외 충격을 받아 거시·노동 경로를 산출한다. 산업 블록은 36개 산업을 동시에 다루는 베이지안 벡터자기회귀이며, 거시 블록이 제공한 외생 경로를 받아 산업별 부가가치 경로로 분해한다. 추정에는 미네소타 사전분포와 산업연관표 정보를 결합하여 약 5,800개의 모수를 분기 138개 표본으로 안정적으로 추정한다.</p>
-<p>분석은 데이터 정비, 모형 추정, 시나리오 예측의 순서로 진행된다. 기초 분석에서 산업 변동의 약 3분의 2가 상호 전이됨을, 모형 검증에서 외생변수가 학습 적합도를 9%p 향상시킴을 확인한다. 시나리오 예측에서는 생산가능인구 감소가 산업에 비대칭적으로 작용하여, 2035년 실질 GDP가 인구 가정에 따라 분기됨을 보인다. 방법론 측면에서는 노동 계수의 구조적 교정과 위기 국면의 더미 분리, 외생변수의 기여 검증을 제시한다.</p>
+<p>본 연구는 한국 36개 산업의 실질부가가치 경로를 2025년부터 2035년까지 다섯 시나리오로 전망하는 두 블록 결합 모형을 제시한다. 거시 블록은 한국은행 BOKDPM을 이식한 준구조 모형으로 인구추계와 대내외 충격으로부터 거시·노동 경로를 생성하고, 산업 블록은 36개 산업을 동시에 다루는 베이지안 VARX로 이 외생 경로를 산업별 부가가치로 분해한다. 미네소타 사전분포에 산업연관표의 후방연쇄 정보를 결합하여 약 5,800개의 모수를 분기 138개 표본으로 추정하되, 위기 국면을 더미로 분리하고 노동 계수를 구조 탄력성으로 교정한다. 분석 결과 산업 변동의 약 3분의 2가 산업 간에 전이되고, 외생변수의 결합이 학습 적합도를 9%p 높이며, 생산가능인구 감소가 산업에 비대칭적으로 작용하여 2035년 실질 GDP가 인구 가정에 따라 분기됨을 확인한다. 모든 전망은 사후분포에서 도출한 신뢰구간과 함께 제시되어 정책 활용에 필요한 불확실성 정보를 제공한다.</p>
 <p style="font-size:13.5px;color:#5a5a5a;margin-top:8px"><b>주제어</b>: 산업별 부가가치 전망, 베이지안 VARX, 미네소타 사전분포, 산업연관표, 시나리오 분석, 노동공급</p>
 </div>
 
@@ -230,11 +229,36 @@ code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:13.5px;f
 <tr><td>사업지원 서비스업</td><td class="n">+0.7</td><td>섬유·가죽제품 제조업</td><td class="n">−0.0</td></tr>
 </table>
 <p class="tabcap"><span class="cap-no">표 8.</span> 노동 충격(취업자 증가율 1σ)에 대한 산업별 누적 반응(2035년, %). 양(+)이 클수록 노동 충격에 민감하여 노동이 줄면 더 크게 위축된다.</p>
+<h3>5.4 시나리오 생성 결과: 거시 블록의 외생 경로</h3>
+<p>각 시나리오는 거시 블록이 생성한 외생 경로로 정의되며, 그중 노동 경로가 시나리오를 가장 크게 가른다. 그림 5는 통계청 생산연령인구 추계와 오쿤 실업식으로부터 도출된 시나리오별 취업자 증가율 경로를 제시한다. 인구 저위의 S2와 고위의 S3이 위아래로 갈리고, 기준·기술·지정학 시나리오는 중위 인구 경로를 공유한다. 이 경로가 산업 블록의 입력이 되어 산업별 부가가치로 전파된다.</p>
+<figure>
+<div class="chartbox"><div style="position:relative;height:300px"><canvas id="scengenChart" role="img" aria-label="시나리오별 취업자 증가율 경로"></canvas></div></div>
+<figcaption><span class="cap-no">그림 5.</span> <b>시나리오별 취업자 증가율 경로(연율, %), 2026~2035년.</b> 거시 블록이 생성한 외생 노동 경로로, 인구 저위(S2)는 가장 빠른 감소를, 고위(S3)는 가장 완만한 감소를 보인다. S1·S4·S5는 중위 인구 가정을 공유한다. 이 노동 경로가 산업 블록에 입력되어 산업별 부가가치 경로로 전파된다.</figcaption>
+</figure>
+<h3>5.5 시나리오별 산업 시뮬레이션 결과</h3>
+<p>표 8까지가 총량과 노동 충격의 결과라면, 그림 6은 다섯 시나리오 각각에서 36개 산업이 어떻게 성장하는지를 한눈에 보여 준다. 컴퓨터·전자와 의료·금융 등 고부가 산업은 모든 시나리오에서 성장하고, 광업·섬유 등 사양 산업은 위축된다. 인구 가정의 차이는 같은 산업 안에서 성장률의 높낮이로 나타나, 노동이 풀린 S3에서 가장 높고 묶인 S2에서 가장 낮다. 이 36×5 배열이 한국고용정보원 후속 인력수급전망의 직접 입력이 된다.</p>
+<figure>
+<div class="chartbox"><div id="scenheat"></div></div>
+<figcaption><span class="cap-no">그림 6.</span> <b>시나리오별 산업 연평균 실질부가가치 성장률(2026~2035, %).</b> 행은 표준산업분류 코드 순서의 36개 산업, 열은 다섯 시나리오이며, 파랑이 진할수록 높은 성장, 주황이 진할수록 위축이다. 산업 간 재편(고부가 성장·사양 위축)은 모든 시나리오에 공통이며, 시나리오 차이는 같은 산업의 성장 폭으로 드러난다.</figcaption>
+</figure>
 
 <!-- 6. 결론 -->
 <h2><span class="no">6.</span>결론</h2>
 <p>본 연구는 다수 산업의 동시 추정을 베이지안 수축과 산업연관표 사전 정보로 해결하고, 차분 VAR이 담지 못하는 노동 제약을 준구조 거시모형으로 보완하였다. 데이터 정비, 모형 추정·검증, 시나리오 예측의 일관된 흐름으로, 36개 산업의 10년 경로를 다섯 시나리오에 걸쳐 신뢰구간과 함께 도출하였다. 핵심 발견은 충격이 산업에 비대칭적으로 작용한다는 점이며, 이는 노동뿐 아니라 유가·교역·금리·환율·지정학 모두에서 관찰되었다. 방법론 측면에서는 노동 계수의 구조적 교정, 위기 국면의 더미 분리, 외생변수의 기여 검증이라는 세 기여를 제시하였다.</p>
 <p>본 연구는 네 가지 한계를 동반한다. 산업이 36개에 한정되어 신산업 세분류가 유보되고, BOKDPM은 핵심 블록을 이식하여 calibration 모수로 구동하였으며, 1999년 이전 고용은 복원값이고, 노동 패스스루 교정 강도는 calibration에 의존한다. 또한 총량 GDP는 산업 실질부가가치를 단순 합산하지 않고 명목 비중으로 가중하는데, 이는 한국은행 국민계정의 연쇄가중 절차와 동일하다. 향후 과제로는 월별 은닉(hidden) 부가가치 지표를 활용하여 산업을 약 70개로 확장하는 별도 연구를 계획하고 있으며, 이와 함께 산업연관 사전분포의 본격 결합, 순수 노동효과의 비교쌍, 교정 강도의 민감도 분석을 추가한다.</p>
+
+<!-- 자료와 코드 -->
+<h2><span class="no"></span>자료와 코드 공개</h2>
+<p>본 연구의 모든 자료와 코드는 공개되어 누구나 결과를 재현할 수 있다. 코드 저장소에는 데이터 수집부터 모형 추정, 시나리오 전망까지의 전 과정이 담겨 있으며, 개발에 사용한 프로그램은 실행 가능한 노트북 형태로도 제공된다. 입수 데이터는 개별 파일로 정리되어 추가 분석에 바로 활용할 수 있다. 아래는 각 산출물의 위치이다.</p>
+<table>
+<tr><th style="width:34%">항목</th><th>위치</th></tr>
+<tr><td>코드 저장소(전체)</td><td><a href="https://github.com/sdkparkforbi/gva-scenario-2025-2035">github.com/sdkparkforbi/gva-scenario-2025-2035</a></td></tr>
+<tr><td>프로그램 코드 · 노트북(.py·.ipynb)</td><td>저장소 <code>/code</code></td></tr>
+<tr><td>분석·결과 데이터(.csv)</td><td>저장소 <code>/data</code></td></tr>
+<tr><td>입수 데이터(개별 파일, 팀 공유)</td><td>Google Drive 폴더 <code>GVA2035_입수데이터</code></td></tr>
+<tr><td>보고서(웹·PDF)</td><td>저장소 GitHub Pages · <code>gva-scenario-paper.pdf</code></td></tr>
+</table>
+<p class="tabcap">자료 출처: 한국은행 ECOS, 통계청 KOSIS 장래인구추계, FRED. 개발 프로그램은 단계별 Jupyter 노트북(데이터 수집·복원 / 모형 추정 / 시나리오 전망)으로 제공되어, 추가 작업자가 각 단계를 독립적으로 실행·수정할 수 있다.</p>
 
 <!-- 참고문헌 -->
 <h2><span class="no"></span>참고문헌 <span style="font-size:13px;color:var(--mut);font-weight:400">(DOI 검증 완료)</span></h2>
@@ -288,6 +312,23 @@ function growthChart(id,fankey){
     y:{title:{display:true,text:'성장률 (%)'},grid:{color:'rgba(0,0,0,.06)'}}}}});
 }
 growthChart('qoqChart','qoqfan');growthChart('yoyChart','yoyfan');
+// 그림 5: 시나리오별 노동 경로
+(function(){var G=GVA.scengen,SCc={S1:'#888780',S2:'#D85A30',S3:'#185FA5',S4:'#1D9E75',S5:'#7F77DD'},nm={S1:'S1 기준',S2:'S2 제약+충격',S3:'S3 완화',S4:'S4 기술',S5:'S5 지정학'};
+ var ds=['S1','S2','S3','S4','S5'].map(function(s){return {label:nm[s],data:G.lab[s],borderColor:SCc[s],backgroundColor:SCc[s],borderWidth:1.8,pointRadius:2,tension:.2};});
+ new Chart(document.getElementById('scengenChart'),{type:'line',data:{labels:G.yr,datasets:ds},
+  options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'index',intersect:false},
+   plugins:{legend:{display:true,labels:{boxWidth:12,font:{size:11}}},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.y.toFixed(2)+'%';}}}},
+   scales:{x:{grid:{display:false}},y:{title:{display:true,text:'취업자 증가율 (연율, %)'},grid:{color:'rgba(0,0,0,.06)'}}}}});})();
+// 그림 6: 시나리오별 산업 성장률 히트맵
+(function(){var S=GVA.scenind;function col(v){var a=Math.min(1,Math.abs(v)/5)*0.82+0.06;return v>=0?'rgba(24,95,165,'+a+')':'rgba(216,90,48,'+a+')';}
+ var lab={S1:'S1 기준',S2:'S2 제약',S3:'S3 완화',S4:'S4 기술',S5:'S5 지정학'};
+ var s='<table style="border-collapse:collapse;width:100%;table-layout:fixed;font-size:11px"><thead><tr><th style="width:30%;text-align:left;padding:4px;color:#5a5a5a;font-weight:600"></th>';
+ S.scn.forEach(function(sc){s+='<th style="text-align:center;padding:4px 2px;font-size:10.5px;color:#5a5a5a;font-weight:600">'+lab[sc]+'</th>';});
+ s+='</tr></thead><tbody>';
+ S.inds.forEach(function(nm,i){s+='<tr><td style="text-align:left;padding:3px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0">'+nm+'</td>';
+  S.scn.forEach(function(sc){var v=S.M[sc][i];s+='<td style="text-align:center;padding:3px 2px;background:'+col(v)+';color:#1a1a1a">'+(v>0?'+':'')+v.toFixed(1)+'</td>';});s+='</tr>';});
+ s+='</tbody></table>';document.getElementById('scenheat').innerHTML=s;})();
+window.addEventListener('load',function(){setTimeout(function(){try{Object.values(Chart.instances).forEach(function(c){c.resize();});}catch(e){}},400);});
 window.__chartsReady=true;
 </script>
 </body>
