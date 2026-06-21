@@ -21,6 +21,11 @@ from bvar_industry import load_growth, ar_sigma
 P, Q = 4, 2                 # 내생 lag, 외생 lag
 LAM, LAMX = 0.1, 1.0        # 내생/외생 prior 수축강도
 EXO = ["oil_g", "trd_g", "d_rrate", "rfx_g", "lab_g"]
+# 노동 패스스루를 구조 탄력성(노동분배율)으로 제약. 축소형 계수(~1.4)는 경기 공행성을
+# 반영해 구조적 인구감소에 적용 시 산출을 과대 위축시킨다 → 동시계수 prior평균=노동분배율.
+# 동시계수 prior평균을 0.40으로 잡으면, 산업 간 동학 증폭 후 총량 가중 장기승수가
+# 0.85(노동분배율 0.65 + 완만한 일반균형 승수) 수준이 되어 구조적으로 타당해진다.
+LAB_SHARE, OM_LAB = 0.40, 0.0008
 
 
 def qkey(q):
@@ -60,6 +65,12 @@ def prior(n, ne, sig_y, sig_x):
         for m in range(ne):
             om[pos] = LAMX ** 2 / ((s + 1) ** 2 * sig_x[m] ** 2); pos += 1
     om[pos] = 1e6                                        # const
+    # 노동계수 구조 제약: 동시계수 prior평균=노동분배율, 시차=0, 모두 tight
+    lab = EXO.index("lab_g")
+    for s in range(Q + 1):
+        r = n * P + s * ne + lab
+        B0[r, :] = LAB_SHARE if s == 0 else 0.0
+        om[r] = OM_LAB
     return B0, np.diag(om), np.diag(sig_y ** 2), n + 2
 
 

@@ -28,6 +28,9 @@ def load_growth():
     order = sorted(w.index, key=lambda q: (int(q[:4]), int(q[5])))
     w = w.loc[order]
     g = 100.0 * np.log(w).diff().dropna()        # 100*Δlog, 183 x 36
+    # 정유 등 극단 분기변동(예: 2020Q1 코크스·석유정제 -128%) 윈저화 → Σ·상수 왜곡 방지.
+    # 실질부가가치=거대 산출−거대 투입이라 정유의 차액(부가가치)이 작고 변동이 극심하다.
+    g = g.clip(-30, 30)
     return g
 
 
