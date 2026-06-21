@@ -208,11 +208,11 @@ new Chart(document.getElementById('netChart'),{type:'bar',
   scales:{x:{position:'top',grid:{color:'rgba(0,0,0,.06)'},title:{display:true,text:'순 연결성 (%p)'}},y:{ticks:{font:{size:9.5},autoSkip:false},grid:{display:false}}}}});
 // 그림 2: 시나리오 팬차트
 const SC={S1:{c:'#888780',a:'rgba(136,135,128,.12)'},S2:{c:'#D85A30',a:'rgba(216,90,48,.13)'},S3:{c:'#185FA5',a:'rgba(24,95,165,.12)'},S4:{c:'#1D9E75',a:'rgba(29,158,117,.12)'}};
-const ds=[];let i=0;['S4','S3','S1','S2'].forEach(s=>{const f=GVA.fan[s];
+const ds=[];['S4','S3','S1','S2'].forEach(s=>{const f=GVA.fan[s];
  ds.push({label:s+'lo',data:f.p05,borderColor:'transparent',backgroundColor:SC[s].a,pointRadius:0,fill:false});
- ds.push({label:s+'hi',data:f.p95,borderColor:'transparent',backgroundColor:SC[s].a,pointRadius:0,fill:i});
- ds.push({label:s,data:f.p50,borderColor:SC[s].c,borderWidth:2,pointRadius:0,tension:.2,fill:false});i+=3;});
-new Chart(document.getElementById('fanChart'),{data:{labels:GVA.q,datasets:ds},
+ ds.push({label:s+'hi',data:f.p95,borderColor:'transparent',backgroundColor:SC[s].a,pointRadius:0,fill:'-1'});
+ ds.push({label:s,data:f.p50,borderColor:SC[s].c,borderWidth:2,pointRadius:0,tension:.2,fill:false});});
+new Chart(document.getElementById('fanChart'),{type:'line',data:{labels:GVA.q,datasets:ds},
  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
   plugins:{legend:{display:false},tooltip:{filter:c=>!c.dataset.label.match(/lo|hi/),callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)}}},
   scales:{x:{ticks:{maxTicksLimit:10,maxRotation:0,callback:function(v){const l=this.getLabelForValue(v);return l.endsWith('Q1')?l.slice(0,4):''}},grid:{display:false}},
