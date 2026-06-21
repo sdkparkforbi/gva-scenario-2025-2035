@@ -27,7 +27,7 @@ rrbar = 1.5                                             # 중립실질금리(BOK
 pietar = 2.0                                            # 인플레목표(현행 2%; 원본 3.0)
 H, BUF = 40, 24                                         # 2026Q1~2035Q4 + 종단버퍼
 N = H + BUF
-SCN = ["S1", "S2", "S3", "S4"]
+SCN = ["S1", "S2", "S3", "S4", "S5"]
 
 
 def labor_force_growth():
@@ -51,6 +51,8 @@ def scenario_inputs(s):
         yus = -1.2 * dec(12); oil = -8.0 * dec(8); tcost = +1.5 * dec(12); dshk = -1.0 * dec(12)
     if s == "S4":   # 기술도약/대외 상방: 세계수요↑·TFP(수요견인)
         yus = +0.8 * dec(20); dshk = +0.6 * np.ones(N) * dec(28)
+    if s == "S5":   # 지정학 리스크: 유가 급등(공급충격)·무역비용 급등·세계수요↓·안전자산 선호
+        oil = +15.0 * dec(8); tcost = +2.0 * dec(10); yus = -0.6 * dec(10); dshk = -0.8 * dec(10)
     return yus, oil, tcost, dshk
 
 
@@ -82,7 +84,7 @@ def solve_korea_block(yus, oil, dshk, iters=400):
 
 def main():
     lfg = labor_force_growth()
-    lab_assump = {"S1": "중위", "S2": "저위", "S3": "고위", "S4": "중위"}
+    lab_assump = {"S1": "중위", "S2": "저위", "S3": "고위", "S4": "중위", "S5": "중위"}
     partic = np.linspace(0.05, 0.0, H)                    # 참가율 추세(완만 둔화), 분기%
     rows, macro, viz = [], [], {"q": [f"{2026+h//4}Q{h%4+1}" for h in range(H)], "scn": SCN, "d": {}}
 

@@ -26,8 +26,8 @@ from bvarx_industry import build, prior, EXO, P, Q
 H = 40                     # 2026Q1 ~ 2035Q4
 NDRAW = 400
 SEED = 20260621
-SCN = ["S1", "S2", "S3", "S4"]
-LAB_ASSUMP = {"S1": "중위", "S2": "저위", "S3": "고위", "S4": "중위"}
+SCN = ["S1", "S2", "S3", "S4", "S5"]
+LAB_ASSUMP = {"S1": "중위", "S2": "저위", "S3": "고위", "S4": "중위", "S5": "중위"}
 
 
 def labor_paths():
@@ -142,6 +142,18 @@ def main():
                  index=[f"{2026+h//4}Q{h%4+1}" for h in range(H)]).to_csv(
         "scenario_gdp_fan.csv", encoding="utf-8-sig")
 
+    # 증가율 팬: 전기대비(QoQ)·전년동기대비(YoY)  (2025 실측으로 YoY 기준연도 고정)
+    g2025 = g.values[-4:] @ w
+    pre = np.array([-(g2025[1] + g2025[2] + g2025[3]), -(g2025[2] + g2025[3]), -g2025[3], 0.0])
+    qoqfan, yoyfan = {}, {}
+    for s in SCN:
+        A = agg_draws[s]
+        qoq = np.hstack([A[:, :1], np.diff(A, axis=1)])
+        full = np.hstack([np.tile(pre, (NDRAW, 1)), A])
+        yoy = full[:, 4:4 + H] - full[:, 0:H]
+        qoqfan[s] = np.percentile(qoq, [5, 50, 95], axis=0)
+        yoyfan[s] = np.percentile(yoy, [5, 50, 95], axis=0)
+
     # 산업별 2035 누적반응(중앙값) + S2-S3 차이
     med = {s: np.median(ind2035[s], 0) for s in SCN}
     df_ind = pd.DataFrame({s: med[s] for s in SCN}, index=names)
@@ -163,7 +175,11 @@ def main():
     viz = {"q": qlabels, "scn": SCN,
            "fan": {s: {p: [round(x, 2) for x in fan[s][i]]
                        for i, p in enumerate(["p05", "p15", "p50", "p85", "p95"])} for s in SCN},
-           "gdp2035": {s: round(float(fan[s][2][-1]), 1) for s in SCN}}
+           "gdp2035": {s: round(float(fan[s][2][-1]), 1) for s in SCN},
+           "qoqfan": {s: {p: [round(x, 3) for x in qoqfan[s][i]]
+                          for i, p in enumerate(["p05", "p50", "p95"])} for s in SCN},
+           "yoyfan": {s: {p: [round(x, 3) for x in yoyfan[s][i]]
+                          for i, p in enumerate(["p05", "p50", "p95"])} for s in SCN}}
     json.dump(viz, open("_scenario_viz.json", "w", encoding="utf-8"), ensure_ascii=False)
 
     print("시나리오 전망 완료 (2026Q1~2035Q4)")
